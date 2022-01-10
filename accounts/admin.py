@@ -16,12 +16,12 @@ class CustomUserAdmin(UserAdmin):
     model = User
     
     list_display = ('email','first_name', 'last_name', 'phone_number', 'admin',)
-    list_filter = ('first_name', 'last_name', 'phone_number', 'email', 'admin', 'staff', 'is_active',)
+    list_filter = ('first_name', 'last_name', 'admin', 'staff',)
 
     fieldsets = (
         (None, {
             "fields": (
-                'first_name', 'last_name','phone_number','email','password',
+                'first_name', 'last_name','address', 'img', 'phone_number','email','password',
             ),
         }),
         ('Permissions', {
@@ -36,7 +36,7 @@ class CustomUserAdmin(UserAdmin):
             'fields':('email', 'password', 'password2', 'staff', 'is_active', 'admin')
         }),
     )
-    search_fields = ('email', 'phone_number',)
+    search_fields = ('email', 'phone_number', 'address')
     ordering = ('-joined_date',)
 
 admin.site.register(User, CustomUserAdmin)

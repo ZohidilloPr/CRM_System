@@ -9,6 +9,8 @@ from .menegers import CustomUserManeger
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(("ISM"), max_length=50)
     last_name = models.CharField(("FAMILYA"), max_length=50)
+    address = models.CharField(("MANZIL"), max_length=250)
+    img = models.ImageField(("Profile uchun Rasm"), upload_to='user_pic/', null=True, blank=True)
     email = models.EmailField(('EMAIL'), unique=True)
     phone_number = models.CharField(('TELEFON RAQAM'), max_length=9)
     joined_date = models.DateTimeField(auto_now_add=True)
