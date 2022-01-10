@@ -12,6 +12,7 @@ class RegisterCreateView(CreateView):
     template_name = 'register/register.html'
     success_url = '/'
 
+
 def LogIn(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
