@@ -12,16 +12,25 @@
     <title>Login</title>
   </head>
   <body id="bg-img">
-    
-    <div class="box box-shadow-style">
+    <div class="monitor">
+      <div class="bg-img">
         
-
-        <form action="" method="post">
-            {% csrf_token %}
-            {{form.username}}
-        </form>
-
-
+      </div>
+      <div class="box box-shadow-style">
+          <div class="row align-items-center" id="brand">
+              <div class="col-12">
+                  <div class="brand text-center">
+                      <h3>Kirish</h3>
+                  </div>
+              </div>
+          </div>
+  
+          <form action="" method="post">
+              {% csrf_token %}
+              
+          </form>
+  
+      </div>
     </div>
 
 
