@@ -22,6 +22,6 @@ def LogIn(request):
             user = authenticate(username=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('accounts:RGU')
+                return redirect('List:Home')
     form = AuthenticationForm
     return render(request, 'register/login.html', context={'form':form})

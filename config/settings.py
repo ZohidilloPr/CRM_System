@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # local apps
     'accounts.apps.AccountsConfig',
+    'List.apps.ListConfig',
+    # global apps
+    'crispy_forms',
+    "bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -127,7 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # custom userni ulash uchun
 AUTH_USER_MODEL = 'accounts.User'
-
+# CRISPY_TEMPLATE_PACK = 'uni_form'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
