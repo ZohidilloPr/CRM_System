@@ -1,0 +1,92 @@
+{% extends "index.html" %}
+{% block title %}
+    Students
+{% endblock title %}
+
+{% block content %}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'app:Subject' %}"><i class="fas fa-book"></i> Subjects</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Students</li>
+    </ol>
+</nav>
+<div class="text-right fixed-top mt-5">
+    <a href="{% url 'app:RegisterStudent'  %}" class="mt-2 btn btn-primary btn-sm mr-2"><i class="fas fa-plus-circle"></i> add Student</a>
+</div>
+    <div class="wrapper">
+        <h2 class="text-center">O'quvchilar Royhati</h2>
+    </div>
+    <div class="container1">
+        <div class="row mt-5" style="margin-right: 15px;">
+            <div class="col-md-10 mx-2 m-auto">
+                <table class="table table-hover table-borderless table-sm text-center">
+                    <thead class="border-bottom border-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Toliq Ism</th>
+                            <th>O'qiydigan Fani</th>
+                            <th>O'qituchisi</th>
+                            <th>O'qiydigan kunlari</th>
+                            <th>O'quv Turi</th>
+                            <th>Telefon Raqami</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in stu %}
+                            <tr class="border-bottom">
+                                <th>{{ forloop.counter }}</th>
+                                <td> {{ i.f_name }} </td>
+                                <td> {{ i.subject }} </td>
+                                <td> {{ i.teacher.f_name }} </td>
+                                <td> {{ i.study_days | upper }} </td>
+                                <td> {{ i.study_type | upper }} </td>
+                                <td> (+998) {{ i.phone_num }} </td>
+                                <td class="btn-group btn-group-sm">
+                                    <a href="{% url 'app:UpdateStudent' pk=i.pk %}" class="btn btn-primary" >Edit</a>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
+                                        Delete
+                                    </button>    
+                                </td>
+                            </tr>
+                            <!-- Button trigger modal -->  
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal{{i.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{i.f_name}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <form action="{% url 'app:DeleteStudent' pk=i.pk %}" method="post">
+                                        <div class="modal-body">
+                                            <b> {{i.f_name}} </b> <span> ni ro'stan ham o'chirib yubormoqchimisiz </span> ? <br>
+                                            <small class="text-danger">Warning! Bu item o'chirilgandan so'ng qayta tiklashning iloji yoq!</small> 
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <tr class="text-center">
+                                <td colspan="10">Afsus Bironta ham O'quvchi yoq :( </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
