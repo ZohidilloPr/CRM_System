@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.http import request
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
@@ -50,7 +51,6 @@ class Subject(models.Model):
     def self_students(self):
         student = self.student_set.all().count()
         return student
-
 
 class Teacher(models.Model):
     """Centerda ishlaydigan o'qituvchilar"""
@@ -107,7 +107,7 @@ class Student(models.Model):
     registered_date = models.DateTimeField(_("Ro'yhatga olingan vaqti"), auto_now_add=True)
 
     def __str__(self):
-        return self.f_name
+        return f'{self.f_name} from {self.subject.name}'
  
     """Bitta student shu oyda necha pul tolov qilganligini ko'rsatadi"""
     @property
@@ -121,7 +121,6 @@ class Student(models.Model):
         total = sum([i.payment for i in this_month])
         return total
         
-
 class Payment(models.Model):
     """O'quvchilarning Tolovlari"""
     student = models.ForeignKey(Student, verbose_name=_("Talaba"), on_delete=models.CASCADE)
@@ -132,4 +131,48 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.student.f_name} {self.payment} so\'m'
+
+    """To'langan umumiy summa olish"""
+    @property
+    def get_total_payment(self):
+        pay = Payment.objects.all()
+        total = sum([i.payment for i in pay])
+        return total
     
+    """O'qituvchilarga To'lanadigan umumiy summa"""
+    @property
+    def get_total_salary(self):
+        total = self.get_total_payment / 2
+        return total
+    
+    """Centerning umumiy harajatlari"""
+    @property
+    def get_total_outlay(self):
+        """Umumiy harajatlar"""
+        outlay = Harajatlar.objects.all()
+        total = sum([i.amount for i in outlay])
+        return total
+
+    """Centerga qoladigan soft foyda"""
+    @property
+    def total_benifet(self):
+        total = self.get_total_salary - self.get_total_outlay
+        return total
+
+# HARAJATLAR
+class Harajatlar(models.Model):
+    """Centerning Harajatlari"""
+    name = models.CharField(_("Nima uchun"), max_length=100)
+    amount = models.IntegerField(_("Qancha miqdorda"))
+    used_date = models.DateTimeField(_("Ishlatilgan vaqti"), auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def get_total_outlay(self):
+        """Umumiy harajatlar"""
+        outlay = Harajatlar.objects.all()
+        total = sum([i.amount for i in outlay])
+        return total
+

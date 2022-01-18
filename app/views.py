@@ -5,6 +5,7 @@ from .models import (
     Teacher, 
     Student,
     Payment,
+    Harajatlar,
 )
 from .forms import SubjectForm, TeacherForm, StudentForm
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
@@ -38,6 +39,13 @@ def Students(request, id_tea):
     }
     return render(request, 'sections/students.html', context)
 
+class StudentsList(ListView):
+    """Hamma o'quvchilarni ro'yhati"""
+    model = Student
+    template_name = 'all/all_students.html'
+    ordering = '-registered_date'
+    paginate_by = 5
+
 class TeachersList(ListView):
     """Hamma o'qituvchilarni ro'yhati"""
     model = Teacher
@@ -57,12 +65,16 @@ class AddSubjectView(CreateView):
     model = Subject
     template_name = 'register/subject_form.html'
     fields = '__all__'
+    success_url = '/register_home/subject/'
+
 
 class SubjectUpdateView(UpdateView):
     """Fanni taxrirlash"""
     model = Subject
     template_name = "update/subject_update.html"
     fields = '__all__'
+    success_url = '/subject/'
+
 
 class DeleteSubject(DeleteView):
     """O'chirish"""
@@ -79,17 +91,21 @@ class AddTeacherView(CreateView):
     model = Teacher
     template_name = 'register/teacher_form.html'
     fields = '__all__'
+    success_url = '/all/teachers/'
+
 
 class TeacherUpdateView(UpdateView):
     """O'qituvchini Taxrirlash"""
     model = Teacher
     template_name = 'update/teacher_update.html'
     fields = '__all__'
+    success_url = '/all/teachers/'
+
 
 class DeleteTeacher(DeleteView):
     """O'chirish"""
     model = Teacher
-    success_url = '/subject/'
+    success_url = '/all/teachers/'
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -99,12 +115,16 @@ class AddStudentView(CreateView):
     model = Student
     template_name = 'register/student_form.html'
     fields = '__all__'
+    success_url = '/all/students/'
+
 
 class StudentUpdateView(UpdateView):
     """Talabani Taxrirlash"""
     model = Student
     template_name = 'update/student_update.html'
     fields = '__all__'
+    success_url = '/all/students/'
+    
 
 class DeleteStudent(DeleteView):
     """O'chirish"""
@@ -127,12 +147,16 @@ class AddPaymentView(CreateView):
     model = Payment
     template_name = 'payment/payment_form.html'
     fields = '__all__'
+    success_url = '/payment/'
+
 
 class PaymentUpdateView(UpdateView):
     """Payment Taxrirlash"""
     model = Payment
     template_name = 'payment/payment_update.html'
     fields = '__all__'
+    success_url = '/payment/'
+
 
 class DeletePayment(DeleteView):
     """O'chirish"""
@@ -195,3 +219,44 @@ def This_month(request):
         'object_list':this_month_list,
     }
     return render(request, 'payment/payment_history/this_month.html', context)
+
+def ReportSection(request):
+    subject = Subject.objects.all().count()
+    teacher = Teacher.objects.all().count()
+    student = Student.objects.all().count()
+
+    payment = Payment.objects.all()
+
+    context = {
+        'subject': subject,
+        'teacher': teacher,
+        'student': student,
+        'payment':payment,
+    }
+    return render(request, 'report_section/report_home.html', context)
+
+class HarajatlarView(CreateView):
+    """Harajatlar qo'shish"""
+    model = Harajatlar
+    template_name = "report_section/total_outlies.html"
+    fields = '__all__'
+    success_url = '/harajatlar/add/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        kwargs['object_list'] = Harajatlar.objects.all()
+        return super().get_context_data(**kwargs)
+
+class UpdateHarajatlar(UpdateView):
+    """Harajatlar taxrirlash"""
+    model = Harajatlar
+    template_name = "report_section/outlies_update.html"
+    fields = '__all__'
+    success_url = 'harajatlar/add/'
+
+class DeleteHarajatlar(DeleteView):
+    """Harajatlar o'chirib yuborish"""
+    model = Harajatlar
+    success_url = '/harajatlar/add/'

@@ -1,25 +1,24 @@
 {% extends "index.html" %}
 {% block title %}
-    Workers
+    StudentList
 {% endblock title %}
 {% block content %}
 <nav aria-label="breadcrumb" class="fixed-top">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'app:Home' %}"><i class="fas fa-home"></i>Home</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'app:ReportSection' %}"><i class="fas fa-home"></i>Umumiy Hisobot Bolimi</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Coworkers</li>
+        <li class="breadcrumb-item" ><a href="{% url 'app:Home' %}">Home</a></li>
+        <li class="breadcrumb-item" ><a href="{% url 'app:ReportSection' %}">Umumiy Hisobot Bolimi</a></li>
+        <li class="breadcrumb-item active" aria-current="page">O'quvchilar Ro'yhati</li>
     </ol>
 </nav>
-<div class="text-left fixed-top mt-5">
-    <a href="{% url 'app:RegisterTeacher' %}" class="btn btn-primary btn-sm mt-2 ml-2"><i class="fas fa-plus-circle"></i> add Teacher</a>
+<div class="text-right fixed-top mt-5">
+    <a href="{% url 'app:RegisterStudent' %}" class="mt-2 btn btn-primary btn-sm mr-2">add Student</a>
 </div>
-
-<div class="wrapper mt-5">
-    <h2 class="text-center"><span class="border-bottom border-dark"> WorkersList </span></h2>
-</div>
+<div class="wrapper my-5">
+    <h2 class="text-center"><span class="border-bottom border-dark"> StudentList </span></h2>
+</div> 
 <div class="col-md-5 m-auto">
     <form action="" class="my-4" method="get">
-        <input class="form-control" type="search" name="W" aria-label="search" placeholder="Hodimni Ismi, Familyasi, yashash joyi yoki tajribasi orqali qidiring!">
+        <input class="form-control" type="search" name="S" id="" placeholder="Search Student">
     </form>
 </div>
 <div class="row" style="margin-right: 15px;">
@@ -29,39 +28,36 @@
                 <tr>
                     <th>#</th>
                     <th>Ismi</th>
-                    <th>O'rgatadigan fani</th>
-                    <th>O'quvchilar soni</th>
-                    <th>Maoshi</th>
+                    <th>O'rganadigan fani</th>
+                    <th>O'qituvchisi</th>
                     <th>Telefon Raqami</th>
                     <th></th>
-                  </tr>
+                </tr>
             </thead>
-            <tbody>
+            <tbody> 
                 {% for i in object_list %}
                     <tr class="border-bottom">
                         <th>{{ forloop.counter }}</th>
                         <td> {{i.f_name}} </td>
                         <td> {{i.subject}} </td>
-                        <td> {{i.self_students}} kishi</td>
-                        <td> {{i.salary}} so'm </td>
+                        <td> {{i.teacher}}</td>
                         <td> (+998) {{i.phone_num}} </td>
-                        <td> <a href="{% url 'app:UpdateTeacher' pk=i.pk  %}" class="btn btn-primary px-3 btn-sm">Taxrirlash</a> </td>
                     </tr>
                 {% endfor %}
             </tbody>
-            <tfoot class="border-top border-primary"></tfoot>
+            <tfoot class="border-bottom border-primary">
                 {% for i in object_list %}
                     {% if forloop.counter == 1 %}
-                        {% if i.get_total_salary %}
+                        {% if i.total_student %}
                             <tr>
-                                <th colspan="4">Total</th>
-                                <td colspan="3"> {{ i.get_total_salary }} so'm</td>
+                                <th colspan="4">Umumiy O'quvchilar soni</th>
+                                <td colspan="3"> {{ i.total_student }} kishi</td>
                             </tr>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
+                            {% endif %}                          
+                        {% endif %}                  
+                    {% endfor %}
             </tfoot>
-        </table>
+        </table>                      
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
@@ -75,6 +71,6 @@
             </ul>
         </nav>
     </div>
-</div>
+</div>    
 
 {% endblock content %}
