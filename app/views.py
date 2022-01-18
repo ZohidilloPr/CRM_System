@@ -1,5 +1,10 @@
 from django.shortcuts import redirect, render
-from .models import Subject, Teacher, Student
+from .models import (
+    Subject, 
+    Teacher, 
+    Student,
+    Payment,
+)
 from .forms import SubjectForm, TeacherForm, StudentForm
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 # Create your views here.
@@ -57,8 +62,6 @@ class SubjectUpdateView(UpdateView):
     template_name = "update/subject_update.html"
     fields = '__all__'
 
-
-
 class DeleteSubject(DeleteView):
     """O'chirish"""
     model = Subject
@@ -66,7 +69,6 @@ class DeleteSubject(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-
 
 # centerda ishlaydigan o'qituvchilar uchun
 
@@ -90,7 +92,6 @@ class DeleteTeacher(DeleteView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
-
 class AddStudentView(CreateView):
     """Yangi Talaba qo'shish"""
     model = Student
@@ -110,3 +111,8 @@ class DeleteStudent(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+# Payment Sections
+def Payment(request):
+    pay = Payment.objects.all().order('-payed_date')
+    return render(request, 'payment/payment_home.hmtl', {'pay':pay})
