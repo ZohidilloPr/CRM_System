@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from datetime import datetime
 from .models import (
     Subject, 
     Teacher, 
@@ -7,6 +8,7 @@ from .models import (
 )
 from .forms import SubjectForm, TeacherForm, StudentForm
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.core.paginator import Paginator
 # Create your views here.
 
 def Home(request):
@@ -113,6 +115,83 @@ class DeleteStudent(DeleteView):
         return super().get(request, *args, **kwargs)
 
 # Payment Sections
-def Payment(request):
-    pay = Payment.objects.all().order('-payed_date')
-    return render(request, 'payment/payment_home.hmtl', {'pay':pay})
+
+class PaymentList(ListView):
+    model = Payment
+    template_name = "payment/payment_home.html"
+    ordering = '-payed_date'
+    paginate_by = 5
+
+class AddPaymentView(CreateView):
+    """Yangi Payment qo'shish"""
+    model = Payment
+    template_name = 'payment/payment_form.html'
+    fields = '__all__'
+
+class PaymentUpdateView(UpdateView):
+    """Payment Taxrirlash"""
+    model = Payment
+    template_name = 'payment/payment_update.html'
+    fields = '__all__'
+
+class DeletePayment(DeleteView):
+    """O'chirish"""
+    model = Payment
+    success_url = '/payment/'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+# Filter section
+
+def Pass_year(request):
+    pass_year = int(datetime.now().year) - 1
+    pay = Payment.objects.all()
+    pass_year_list = []
+    for i in pay:
+        if i.payed_date.year == pass_year:
+            pass_year_list.append(i)
+    paginator = Paginator(pass_year_list, 10) # Show 10 list per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'page_obj':page_obj,
+        'object_list':pass_year_list,
+    }
+    return render(request, 'payment/payment_history/payment_history_pass_year.html', context)
+
+def This_year(request):
+    this_year = int(datetime.now().year)
+    pay = Payment.objects.all()
+    this_year_list = []
+    for i in pay:
+        if i.payed_date.year == this_year:
+            this_year_list.append(i)
+    paginator = Paginator(this_year_list, 10) # Show 10 list per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'page_obj':page_obj,
+        'object_list':this_year_list,
+    }
+    return render(request, 'payment/payment_history/payment_history_this_year.html', context)
+
+def This_month(request):
+    this_month = int(datetime.now().month)
+    pay = Payment.objects.all()
+    this_month_list = []
+    for i in pay:
+        if i.payed_date.month == this_month:
+            this_month_list.append(i)
+    
+    paginator = Paginator(this_month_list, 10) # Show 10 list per page.
+
+    number = request.GET.get('page')
+    page_obj = paginator.get_page(number)
+    context = {
+        'page_obj':page_obj,
+        'object_list':this_month_list,
+    }
+    return render(request, 'payment/payment_history/this_month.html', context)

@@ -98,10 +98,16 @@
                               </div>
                             </div>
                           </div>
+                    {% empty %}
+                          <tr>
+                              <td colspan="6" class="text-center">
+                                  <span class="border-bottom border-dark"> <b> Afsus siz soragan malumotlar mavjud emas! </b></span>
+                              </td>
+                          </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
+            <!-- <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     {% if page_obj.has_previous %}
                         <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link" tabindex="-1" aria-disabled="true">Previous</a></li>
@@ -112,7 +118,7 @@
                         <li class="page-item"><a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a></li>
                     {% endif %}
                 </ul>
-            </nav>
+            </nav> -->
         </div>
     </div>
 </div>

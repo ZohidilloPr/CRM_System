@@ -1,4 +1,3 @@
-from django import urls
 from django.urls import path
 from .views import (
     Home,
@@ -16,6 +15,13 @@ from .views import (
     SubjectUpdateView,
     TeacherUpdateView,
     StudentUpdateView,
+    PaymentList,
+    DeletePayment,
+    AddPaymentView,
+    PaymentUpdateView,
+    Pass_year,
+    This_year,
+    This_month,
 )
 
 app_name = 'app'
@@ -23,17 +29,24 @@ app_name = 'app'
 urlpatterns = [
     path("", Home, name="Home"),
     path("subject/", Subjects, name="Subject"),
+    path("payment/pass_year/", Pass_year, name="PassYear"),
+    path("payment/this_year/", This_year, name="ThisYear"),
+    path("payment/this_month/", This_month, name="ThisMonth"),
     path("tea/<id_sub>/", Teachers, name="Teacher"),
     path("stu/<id_tea>/", Students, name="Student"),
     path("register_home/", RegisterHome, name="RegisterHome"),
+    path("payment/", PaymentList.as_view(), name="PaymentHome"),
     path("all/teachers/", TeachersList.as_view(), name="TeacherList"),
     path("delete/subject/<pk>/", DeleteSubject.as_view(), name="DeleteSubject"),
     path("delete/teacher/<pk>/", DeleteTeacher.as_view(), name="DeleteTeacher"),
     path("delete/student/<pk>/", DeleteStudent.as_view(), name="DeleteStudent"),
+    path("delete/payment/<pk>/", DeletePayment.as_view(), name="DeletePayment"),
     path("update/subject/<pk>/", SubjectUpdateView.as_view(), name="UpdateSubject"),
     path("update/teacher/<pk>/", TeacherUpdateView.as_view(), name="UpdateTeacher"),
     path("update/student/<pk>/", StudentUpdateView.as_view(), name="UpdateStudent"),
+    path("update/payment/<pk>/", PaymentUpdateView.as_view(), name="UpdatePayment"),
     path("register_home/subject/", AddSubjectView.as_view(), name="RegisterSubject"),
     path("register_home/teacher/", AddTeacherView.as_view(), name="RegisterTeacher"),
     path("register_home/student/", AddStudentView.as_view(), name="RegisterStudent"),
+    path("payment/add_payment/", AddPaymentView.as_view(), name="RegisterPayment"),
 ]
