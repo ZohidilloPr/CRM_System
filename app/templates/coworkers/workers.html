@@ -45,8 +45,39 @@
                         <td> {{i.self_students}} kishi</td>
                         <td> {{i.salary}} so'm </td>
                         <td> (+998) {{i.phone_num}} </td>
-                        <td> <a href="{% url 'app:UpdateTeacher' pk=i.pk  %}" class="btn btn-primary px-3 btn-sm">Taxrirlash</a> </td>
+                        <td> <a href="{% url 'app:UpdateTeacher' pk=i.pk  %}" class="btn btn-primary px-3 btn-sm">Taxrirlash</a>
+                            {% if user.admin == True %}
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
+                                    Delete
+                                </button>
+                            {% endif %}
+                        </td>
                     </tr>
+                    <!-- Button trigger modal -->  
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal{{i.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">{{i}}</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="{% url 'app:DeleteTeacher' pk=i.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <b> {{i.f_name}} </b> <span> ni ro'stan ham o'chirib yubormoqchimisiz </span> ? <br>
+                                        <small class="text-danger">Warning! Bu item o'chirilgandan so'ng qayta tiklashning iloji yoq!</small> 
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                 {% endfor %}
             </tbody>
             <tfoot class="border-top border-primary"></tfoot>

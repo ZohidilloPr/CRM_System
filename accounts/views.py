@@ -22,6 +22,6 @@ def LogIn(request):
             user = authenticate(username=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('List:Home')
+                return redirect('app:Home')
     form = AuthenticationForm
     return render(request, 'register/login.html', context={'form':form})

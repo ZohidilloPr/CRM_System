@@ -11,7 +11,7 @@
         <li class="breadcrumb-item active" aria-current="page">Subjects</li>
     </ol>
 </nav>
-<div class="container">
+<div class="container1">
     <div class="wrapper text-center">
         <h2 class="">Fanlar Royhati</h2>
     </div>
@@ -37,9 +37,11 @@
                             <td>{{ i.this_month_payment }} so'm</td>
                             <td class="btn-group btn-group-sm">
                                 <a href="{% url 'app:UpdateSubject' pk=i.pk %}" class="btn btn-primary">Edit</a>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
-                                    Delete
-                                </button>
+                                {% if user.admin == True %}
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
+                                        Delete
+                                    </button>
+                                {% endif %}
                             </td>
                         </tr>
                         <!-- Button trigger modal -->  

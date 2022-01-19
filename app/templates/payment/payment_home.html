@@ -68,9 +68,11 @@
                             <td>{{ i.payed_date }}</td>
                             <td class="btn-group btn-group-sm">
                                 <a href="{% url 'app:UpdatePayment' pk=i.pk %}" class="btn btn-primary">Edit</a>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
-                                    Delete
-                                </button>
+                                {% if user.admin == True %}
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
+                                        Delete
+                                    </button>
+                                {% endif %}
                             </td>
                         </tr>
                         <!-- Button trigger modal -->  

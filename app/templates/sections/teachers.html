@@ -12,7 +12,7 @@
         <li class="breadcrumb-item active" aria-current="page">Teachers</li>
     </ol>
 </nav>
-<div class="container">
+<div class="container1">
     <div class="row" style="margin-right: 15px;">
         <div class="col-md-10 m-auto">
             <table class="table table-hover table-borderless">
@@ -31,36 +31,7 @@
                             <td> <a href="{% url 'app:Student' id_tea=i.id %}" class="text-dark"> {{ i.f_name }} </a> </td>
                             <td> {{ i.self_students }} kishi</td>
                             <td> {{ i.this_month_payment }} so'm</td>
-                            <td class="btn-group-sm btn-group"> <a href="{% url 'app:UpdateTeacher' pk=i.pk %}" class="btn btn-primary"> Edit </a>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
-                                    Delete
-                                </button>    
-                            </td>
                         </tr>
-                        <!-- Button trigger modal -->  
-                          <!-- Modal -->
-                          <div class="modal fade" id="exampleModal{{i.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">{{i.f_name}}</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <form action="{% url 'app:DeleteTeacher' pk=i.pk %}" method="post">
-                                    <div class="modal-body">
-                                        <b> {{i.f_name}} </b> <span> ni ro'stan ham o'chirib yubormoqchimisiz </span> ? <br>
-                                        <small class="text-danger">Warning! Bu item o'chirilgandan so'ng qayta tiklashning iloji yoq!</small> 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                     {% endfor %}
                 </tbody>
             </table>
