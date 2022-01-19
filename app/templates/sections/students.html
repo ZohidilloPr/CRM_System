@@ -29,9 +29,10 @@
                             <th>Toliq Ism</th>
                             <th>O'qiydigan Fani</th>
                             <th>O'qituchisi</th>
+                            <th>Telefon Raqami</th>
                             <th>O'qiydigan kunlari</th>
                             <th>O'quv Turi</th>
-                            <th>Telefon Raqami</th>
+                            <th>Dars vaqti</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -42,9 +43,10 @@
                                 <td> {{ i.f_name }} </td>
                                 <td> {{ i.subject }} </td>
                                 <td> {{ i.teacher.f_name }} </td>
+                                <td> (+998) {{ i.phone_num }} </td>
                                 <td> {{ i.study_days | upper }} </td>
                                 <td> {{ i.study_type | upper }} </td>
-                                <td> (+998) {{ i.phone_num }} </td>
+                                <td> {{ i.lesson_time | upper }} </td>
                             </tr>
                         {% empty %}
                             <tr class="text-center">

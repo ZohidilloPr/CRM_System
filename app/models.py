@@ -105,6 +105,7 @@ class Student(models.Model):
     phone_num = models.CharField(_("Telefon raqami"), max_length=9)
     study_days = models.CharField(_("O'qish Kunlari"), max_length=50, choices=study_days, default='option')
     study_type = models.CharField(_("O'qish turi"), max_length=50, choices=study_type, default='option')
+    lesson_time = models.CharField(_("Dars boshlanish vaqti"), max_length=50)
     registered_date = models.DateTimeField(_("Ro'yhatga olingan vaqti"), auto_now_add=True)
 
     def __str__(self):
@@ -126,7 +127,7 @@ class Payment(models.Model):
     """O'quvchilarning Tolovlari"""
     student = models.ForeignKey(Student, verbose_name=_("Talaba"), on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, verbose_name=_("Qaysi fan uchun"), on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, verbose_name=_("O'qituvchisi"), on_delete=models.CASCADE, null=True, blank=True)
+    teacher = models.ForeignKey(Teacher, verbose_name=_("O'qituvchisi"), on_delete=models.CASCADE)
     payment = models.IntegerField(_("Tolov summasi"), default=0)
     payed_date = models.DateTimeField(_("To'langan vaqt"), auto_now_add=True)
 
