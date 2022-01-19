@@ -30,6 +30,7 @@
                         <th>Name</th>
                         <th>Sariflangan Pul Miqdori</th>
                         <th>Sariflash vaqti</th>
+                        <th>Ro'yhatdan o'tkizgan ishchi</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -40,6 +41,7 @@
                             <td>{{ i.name }}</td>
                             <td>{{ i.amount }} so'm</td>
                             <td>{{ i.used_date }}</td>
+                            <td>{{ i.user.first_name }}</td>
                             <td class="btn-group btn-group-sm">
                                 <a href="{% url 'app:UpdateHarajatlar' pk=i.pk %}" class="btn btn-primary">Edit</a>
                                 {% if user.admin == True %}

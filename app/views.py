@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from datetime import datetime
 from .models import (
     Subject, 
@@ -7,9 +7,9 @@ from .models import (
     Payment,
     Harajatlar,
 )
-from .forms import SubjectForm, TeacherForm, StudentForm
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.core.paginator import Paginator
+from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
 def Home(request):
@@ -60,79 +60,82 @@ def RegisterHome(request):
     return render(request, 'register/register_home.html')
 
 # centerda o'tiladigan fanlar uchun
-class AddSubjectView(CreateView):
+class AddSubjectView(SuccessMessageMixin, CreateView):
     """Yangi fan qo'shish"""
     model = Subject
     template_name = 'register/subject_form.html'
     fields = '__all__'
     success_url = '/register_home/subject/'
+    
+    success_message = 'Yangi fan qo\'shildi! '
 
 
-class SubjectUpdateView(UpdateView):
+class SubjectUpdateView(SuccessMessageMixin, UpdateView):
     """Fanni taxrirlash"""
     model = Subject
     template_name = "update/subject_update.html"
     fields = '__all__'
     success_url = '/subject/'
+    success_message = 'Yangilandi '
 
 
-class DeleteSubject(DeleteView):
+class DeleteSubject(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Subject
+    success_message = 'O\'chirildi'
     success_url = '/subject/'
 
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
 # centerda ishlaydigan o'qituvchilar uchun
 
-class AddTeacherView(CreateView):
+class AddTeacherView(SuccessMessageMixin, CreateView):
     """Yangi o'qituvchisi qo'shish"""
     model = Teacher
     template_name = 'register/teacher_form.html'
     fields = '__all__'
     success_url = '/all/teachers/'
+    success_message = 'Yangi O\'qituvchi qo\'shildi! '
 
 
-class TeacherUpdateView(UpdateView):
+class TeacherUpdateView(SuccessMessageMixin, UpdateView):
     """O'qituvchini Taxrirlash"""
     model = Teacher
     template_name = 'update/teacher_update.html'
     fields = '__all__'
     success_url = '/all/teachers/'
+    success_message = 'Yangilandidi! '
 
 
-class DeleteTeacher(DeleteView):
+class DeleteTeacher(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Teacher
     success_url = '/all/teachers/'
+    success_message = 'O\'chirildi'
 
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
-class AddStudentView(CreateView):
+class AddStudentView(SuccessMessageMixin, CreateView):
     """Yangi Talaba qo'shish"""
     model = Student
     template_name = 'register/student_form.html'
     fields = '__all__'
     success_url = '/all/students/'
+    success_message = 'Yangi Talaba qo\'shildi! '
 
 
-class StudentUpdateView(UpdateView):
+class StudentUpdateView(SuccessMessageMixin, UpdateView):
     """Talabani Taxrirlash"""
     model = Student
     template_name = 'update/student_update.html'
     fields = '__all__'
     success_url = '/all/students/'
-    
+    success_message = 'Yangilandi! '
+   
 
-class DeleteStudent(DeleteView):
+class DeleteStudent(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Student
     success_url = '/subject/'
-
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+    success_message = 'O\'chirildi'
 
 # Payment Sections
 
@@ -142,29 +145,29 @@ class PaymentList(ListView):
     ordering = '-payed_date'
     paginate_by = 5
 
-class AddPaymentView(CreateView):
+class AddPaymentView(SuccessMessageMixin, CreateView):
     """Yangi Payment qo'shish"""
     model = Payment
     template_name = 'payment/payment_form.html'
     fields = '__all__'
     success_url = '/payment/'
+    success_message = 'Yangi To\'lov qo\'shildi! '
 
 
-class PaymentUpdateView(UpdateView):
+class PaymentUpdateView(SuccessMessageMixin, UpdateView):
     """Payment Taxrirlash"""
     model = Payment
     template_name = 'payment/payment_update.html'
     fields = '__all__'
     success_url = '/payment/'
+    success_message = 'Yangilandi! '
 
 
-class DeletePayment(DeleteView):
+class DeletePayment(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Payment
     success_url = '/payment/'
-
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+    success_message = 'O\'chirildi'
 
 # Filter section
 
@@ -235,28 +238,47 @@ def ReportSection(request):
     }
     return render(request, 'report_section/report_home.html', context)
 
-class HarajatlarView(CreateView):
+class HarajatlarView(SuccessMessageMixin, CreateView):
     """Harajatlar qo'shish"""
     model = Harajatlar
     template_name = "report_section/total_outlies.html"
-    fields = '__all__'
+    fields = ['name', 'amount']
     success_url = '/harajatlar/add/'
+    success_message = 'Yangi Harajat qo\'shildi! '
 
     def form_valid(self, form):
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         kwargs['object_list'] = Harajatlar.objects.all()
         return super().get_context_data(**kwargs)
 
-class UpdateHarajatlar(UpdateView):
+class UpdateHarajatlar(SuccessMessageMixin, UpdateView):
     """Harajatlar taxrirlash"""
     model = Harajatlar
     template_name = "report_section/outlies_update.html"
     fields = '__all__'
     success_url = 'harajatlar/add/'
+    success_message = 'Yangi fan qo\'shildi! '
 
-class DeleteHarajatlar(DeleteView):
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_function(self):
+        post = self.get_object()
+        if self.request.user == post.user:
+            return True
+        return False
+
+class DeleteHarajatlar(SuccessMessageMixin, DeleteView):
     """Harajatlar o'chirib yuborish"""
     model = Harajatlar
     success_url = '/harajatlar/add/'
+    success_message = 'Yangi fan qo\'shildi! '
+
+    def test_function(self):
+        if self.request.user.admin == True:
+            return True
+        return False

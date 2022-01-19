@@ -1,8 +1,9 @@
 from django.db import models
 from datetime import datetime
-from django.http import request
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 # Create your models here.
 
 """Talabaning qaysi kunlari o'qishga Borishi"""
@@ -126,7 +127,7 @@ class Payment(models.Model):
     student = models.ForeignKey(Student, verbose_name=_("Talaba"), on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, verbose_name=_("Qaysi fan uchun"), on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher, verbose_name=_("O'qituvchisi"), on_delete=models.CASCADE, null=True, blank=True)
-    payment = models.IntegerField(_("Tolov summasi"))
+    payment = models.IntegerField(_("Tolov summasi"), default=0)
     payed_date = models.DateTimeField(_("To'langan vaqt"), auto_now_add=True)
 
     def __str__(self):
@@ -162,8 +163,9 @@ class Payment(models.Model):
 # HARAJATLAR
 class Harajatlar(models.Model):
     """Centerning Harajatlari"""
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
     name = models.CharField(_("Nima uchun"), max_length=100)
-    amount = models.IntegerField(_("Qancha miqdorda"))
+    amount = models.IntegerField(_("Qancha miqdorda"), default=0)
     used_date = models.DateTimeField(_("Ishlatilgan vaqti"), auto_now_add=True)
 
     def __str__(self):
