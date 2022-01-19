@@ -16,10 +16,14 @@
     </title>
   </head>
   <body>
-    {% include 'messages/message.html' %}
-    {% block content %}
-    
-    {% endblock %}
+    {% if user.is_active %}
+      {% include 'messages/message.html' %}
+      {% block content %}
+      
+      {% endblock %}
+    {% else %}
+      {% include 'security/check_user.html' %} 
+    {% endif %}
 
     <!-- Optional JavaScript; choose one of the two! -->
 

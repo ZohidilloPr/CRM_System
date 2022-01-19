@@ -5,5 +5,5 @@ app_name = 'accounts'
 
 urlpatterns = [
     path("register/", RegisterCreateView.as_view(), name="RGU"),
-    path("login/", LogIn, name='LIU')
+    path("", LogIn, name='LIU')
 ]
