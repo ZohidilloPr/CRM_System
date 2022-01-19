@@ -28,6 +28,8 @@ from .views import (
     HarajatlarView,
     UpdateHarajatlar,
     DeleteHarajatlar,
+    SearchStudents,
+    SearchTeacher,
 )
 
 app_name = 'app'
@@ -60,4 +62,6 @@ urlpatterns = [
     path("register_home/student/", AddStudentView.as_view(), name="RegisterStudent"),
     path("payment/add_payment/", AddPaymentView.as_view(), name="RegisterPayment"),
     path("harajatlar/add/", HarajatlarView.as_view(), name="RegisterHarajatlar"),
+    path("search/student/", SearchStudents.as_view(), name="SearchStudent"),
+    path("search/teacher/", SearchTeacher.as_view(), name="SearchTeacher"),
 ]

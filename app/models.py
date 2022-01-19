@@ -63,6 +63,10 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f'{self.f_name} from {self.subject.name}'
+
+    @property
+    def get_subject_name(self):
+        return self.subject.name
     
     """Bitta fan uchun shu oyda qancha tolanganligini ko'rsatadi"""
     @property

@@ -1,3 +1,5 @@
+from pyexpat import model
+from django.http import request
 from django.shortcuts import render
 from datetime import datetime
 from .models import (
@@ -10,6 +12,7 @@ from .models import (
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.core.paginator import Paginator
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 # Create your views here.
 
 def Home(request):
@@ -260,7 +263,7 @@ class UpdateHarajatlar(SuccessMessageMixin, UpdateView):
     template_name = "report_section/outlies_update.html"
     fields = '__all__'
     success_url = 'harajatlar/add/'
-    success_message = 'Yangi fan qo\'shildi! '
+    success_message = 'Yangilandi! '
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -276,9 +279,34 @@ class DeleteHarajatlar(SuccessMessageMixin, DeleteView):
     """Harajatlar o'chirib yuborish"""
     model = Harajatlar
     success_url = '/harajatlar/add/'
-    success_message = 'Yangi fan qo\'shildi! '
+    success_message = 'O\'chirib yuborildi '
 
     def test_function(self):
         if self.request.user.admin == True:
             return True
         return False
+
+# qiduruv bolimi!
+class SearchStudents(ListView):
+    model = Student
+    template_name = 'search_section/search_student.html'
+    ordering = '-registered_date'
+    paginate_by = 5
+
+
+    def get_queryset(self):
+        query = self.request.GET.get('S')
+        object_list = Student.objects.filter(Q(f_name__icontains=query) | Q(lesson_time__icontains=query) | Q(phone_num__icontains=query) | Q(subject__name__icontains=query) | Q(teacher__f_name__icontains=query))
+        return object_list
+
+class SearchTeacher(ListView):
+    model = Teacher
+    template_name = 'search_section/search_teacher.html'
+    ordering = '-registred_time'
+    paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get('T')
+        object_list = Teacher.objects.filter(Q(f_name__icontains=query) | Q(address__icontains=query) | Q(phone_num__icontains=query) | Q(subject__name__icontains=query))
+        return object_list
+    
