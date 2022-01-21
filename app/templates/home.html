@@ -8,6 +8,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item active" aria-current="page">Home</li>
         <li class="breadcrumb-item"><a class="text-info" href="{% url 'app:ReportSection'  %}"><i class="fas fa-chart-line"></i> Umumiy Hisobot O'tish <i>→</i> </a></li>
+        <li class="breadcrumb-item"><a href="{% url 'accounts:OUT' %}" class="mx-2 text-danger"><i class="fas fa-sign-out-alt mr-1"></i>Chiqish</a></li>
     </ol>
 </nav>
 <div class="wrapper mt-5">
@@ -19,8 +20,8 @@
             <tbody class="border-bottom border-info">
                 <tr>
                     <td class="text-left"><a class="text-dark" href="{% url 'app:Subject' %}"><i class="fas fa-book"></i> Fanlar</a></td>
-                    <!-- <td class="text-center ml-5"><a class="text-dark" href="{% url 'app:TeacherList' %}"><i class="fas fa-users"></i> Hodimlar</a></td> -->
-                    <td class="text-center"><a class="text-dark" href="{% url 'app:PaymentHome' %}"><i class="fab fa-cc-amazon-pay"></i>Payment</a></td>
+                    <td class="text-right"><a class="text-dark" href="{% url 'app:PaymentHome' %}"><i class="fab fa-cc-amazon-pay"></i>Payment</a></td>
+                    <!-- <td class="text-right"><a class="text-info" href="{% url 'app:ReportSection'  %}"><i class="fas fa-chart-line"></i> Umumiy Hisobot O'tish <i>→</i> </a></td> -->
                     <td class="text-right"><a class="text-info" href="{% url 'app:RegisterHome'  %}"><i class="fas fa-plus-circle"></i> Ro'yhatga Olish Bo'limi</a></td>
                 </tr>
             </tbody>

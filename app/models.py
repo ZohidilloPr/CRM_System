@@ -1,3 +1,4 @@
+from operator import truth
 from django.db import models
 from datetime import datetime
 from django.utils.translation import gettext_lazy as _
@@ -23,7 +24,7 @@ study_type = (
 
 class Subject(models.Model):
     """Centerda o'qitiladigan fanlar"""
-    name =models.CharField(_("Fan nomi"), max_length=100)
+    name =models.CharField(_("Fan nomi"), max_length=100, unique=True)
     added_date = models.DateTimeField(_("qoshilgan fani"), auto_now_add=True)
 
     def __str__(self):
@@ -59,6 +60,9 @@ class Teacher(models.Model):
     subject = models.ForeignKey(Subject, verbose_name=_("O'qitadigan fani"), on_delete=models.CASCADE)
     address = models.CharField(_("Manzil"), max_length=100)
     phone_num = models.CharField(_("Telefon raqami"), max_length=9)
+    level = models.CharField(_("Ilmiy darajasi"), max_length=100)
+    sertificate = models.FileField(_("Sertificate"), upload_to=f'sertificetes/{f_name}/', max_length=100, null=True, blank=True)
+    experience = models.CharField(_("Tajribasi"), max_length=50)
     registred_time = models.DateTimeField(_("royhatga olingan vaqt"), auto_now_add=True)
 
     def __str__(self):
@@ -183,3 +187,4 @@ class Harajatlar(models.Model):
         total = sum([i.amount for i in outlay])
         return total
 
+ 

@@ -30,7 +30,7 @@
                         <th>Name</th>
                         <th>Sariflangan Pul Miqdori</th>
                         <th>Sariflash vaqti</th>
-                        <th>Ro'yhatdan o'tkizgan ishchi</th>
+                        <th>Ro'yhatdan o'tkazgan ishchi</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -44,11 +44,6 @@
                             <td>{{ i.user.first_name }}</td>
                             <td class="btn-group btn-group-sm">
                                 <a href="{% url 'app:UpdateHarajatlar' pk=i.pk %}" class="btn btn-primary">Edit</a>
-                                {% if user.admin == True %}
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
-                                        Delete
-                                    </button>
-                                {% endif %}
                             </td>
                         </tr>
                         <!-- Button trigger modal -->  
@@ -63,6 +58,7 @@
                                   </button>
                                 </div>
                                 <form action="{% url 'app:DeleteTeacher' pk=i.pk %}" method="post">
+                                    {% csrf_token %}
                                     <div class="modal-body">
                                         <b> {{i}} </b> <span> ni ro'stan ham o'chirib yubormoqchimisiz </span> ? <br>
                                         <small class="text-danger">Warning! Bu item o'chirilgandan so'ng qayta tiklashning iloji yoq!</small> 
@@ -80,10 +76,10 @@
                 <tfoot class="border-top border-primary">
                     {% for i in object_list %}
                         {% if forloop.counter == 1 %}
-                            {% if i.total_outlay %}                                
+                            {% if i.get_total_outlay %}                                
                                 <tr>
                                     <th colspan="2">Total</th>
-                                    <td colspan="3">Firma xisobidan <i class="text-danger"> {{ i.total_outlay }} so'm</i> xarajat qilingan</td>
+                                    <td colspan="3">Firma xisobidan <i class="text-danger"> {{ i.get_total_outlay }} so'm</i> xarajat qilingan</td>
                                 </tr>
                             {% endif %}
                         {% endif %}

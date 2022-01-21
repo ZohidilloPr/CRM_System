@@ -63,6 +63,7 @@
                                     </button>
                                     </div>
                                     <form action="{% url 'app:DeleteStudent' pk=i.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div class="modal-body">
                                             <b> {{i.f_name}} </b> <span> ni ro'stan ham o'chirib yubormoqchimisiz </span> ? <br>
                                             <small class="text-danger">Warning! Bu item o'chirilgandan so'ng qayta tiklashning iloji yoq!</small> 

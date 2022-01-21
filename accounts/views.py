@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .forms import RegisterUser
 from .models import User
 # Create your views here.
@@ -25,3 +25,7 @@ def LogIn(request):
                 return redirect('app:Home')
     form = AuthenticationForm
     return render(request, 'register/login.html', context={'form':form})
+
+def Logot(request):
+    logout(request)
+    return redirect('accounts:LIU')

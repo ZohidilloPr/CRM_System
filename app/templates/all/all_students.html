@@ -31,6 +31,7 @@
                     <th>O'rganadigan fani</th>
                     <th>O'qituvchisi</th>
                     <th>Telefon Raqami</th>
+                    <th>Dars Vaqti</th>
                     <th></th>
                 </tr>
             </thead>
@@ -42,6 +43,7 @@
                         <td> {{i.subject}} </td>
                         <td> {{i.teacher}}</td>
                         <td> (+998) {{i.phone_num}} </td>
+                        <td> {{i.lesson_time}} </td>
                         <td class="btn-group btn-group-sm">
                             <a href="{% url 'app:UpdateStudent' pk=i.pk %}" class="btn btn-primary" >Edit</a>
                             {% if user.admin == True %}
@@ -63,6 +65,7 @@
                                     </button>
                                     </div>
                                     <form action="{% url 'app:DeleteStudent' pk=i.pk %}" method="post">
+                                        {% csrf_token %}
                                         <div class="modal-body">
                                             <b> {{i.f_name}} </b> <span> ni ro'stan ham o'chirib yubormoqchimisiz </span> ? <br>
                                             <small class="text-danger">Warning! Bu item o'chirilgandan so'ng qayta tiklashning iloji yoq!</small> 

@@ -1,7 +1,3 @@
-from pyexpat import model
-from django.http import request
-from django.shortcuts import render
-from datetime import datetime
 from .models import (
     Subject, 
     Teacher, 
@@ -9,10 +5,18 @@ from .models import (
     Payment,
     Harajatlar,
 )
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.views.generic import (
+    CreateView, 
+    UpdateView, 
+    DeleteView, 
+    ListView
+)
+from django.urls import reverse_lazy
+from datetime import datetime
+from django.db.models import Q
+from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Q
 # Create your views here.
 
 def Home(request):
@@ -68,7 +72,7 @@ class AddSubjectView(SuccessMessageMixin, CreateView):
     model = Subject
     template_name = 'register/subject_form.html'
     fields = '__all__'
-    success_url = '/register_home/subject/'
+    success_url = reverse_lazy('app:RegisterSubject')
     
     success_message = 'Yangi fan qo\'shildi! '
 
@@ -78,7 +82,7 @@ class SubjectUpdateView(SuccessMessageMixin, UpdateView):
     model = Subject
     template_name = "update/subject_update.html"
     fields = '__all__'
-    success_url = '/subject/'
+    success_url = reverse_lazy('app:Subject')
     success_message = 'Yangilandi '
 
 
@@ -86,7 +90,7 @@ class DeleteSubject(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Subject
     success_message = 'O\'chirildi'
-    success_url = '/subject/'
+    success_url = reverse_lazy('app:Subject')
 
 
 # centerda ishlaydigan o'qituvchilar uchun
@@ -96,7 +100,7 @@ class AddTeacherView(SuccessMessageMixin, CreateView):
     model = Teacher
     template_name = 'register/teacher_form.html'
     fields = '__all__'
-    success_url = '/all/teachers/'
+    success_url = reverse_lazy('app:RegisterTeacher')
     success_message = 'Yangi O\'qituvchi qo\'shildi! '
 
 
@@ -104,16 +108,16 @@ class TeacherUpdateView(SuccessMessageMixin, UpdateView):
     """O'qituvchini Taxrirlash"""
     model = Teacher
     template_name = 'update/teacher_update.html'
-    fields = '__all__'
-    success_url = '/all/teachers/'
+    fields = '__all__' 
+    success_url = reverse_lazy('app:TeacherList')
     success_message = 'Yangilandidi! '
 
 
 class DeleteTeacher(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Teacher
-    success_url = '/all/teachers/'
     success_message = 'O\'chirildi'
+    success_url = reverse_lazy('app:TeacherList')
 
 
 class AddStudentView(SuccessMessageMixin, CreateView):
@@ -121,7 +125,7 @@ class AddStudentView(SuccessMessageMixin, CreateView):
     model = Student
     template_name = 'register/student_form.html'
     fields = '__all__'
-    success_url = '/all/students/'
+    success_url = reverse_lazy('app:RegisterStudent')
     success_message = 'Yangi Talaba qo\'shildi! '
 
 
@@ -130,14 +134,14 @@ class StudentUpdateView(SuccessMessageMixin, UpdateView):
     model = Student
     template_name = 'update/student_update.html'
     fields = '__all__'
-    success_url = '/all/students/'
+    success_url = reverse_lazy('app:StudentList')
     success_message = 'Yangilandi! '
    
 
 class DeleteStudent(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Student
-    success_url = '/subject/'
+    success_url = reverse_lazy('app:StudentList')
     success_message = 'O\'chirildi'
 
 # Payment Sections
@@ -151,26 +155,26 @@ class PaymentList(ListView):
 class AddPaymentView(SuccessMessageMixin, CreateView):
     """Yangi Payment qo'shish"""
     model = Payment
-    template_name = 'payment/payment_form.html'
     fields = '__all__'
-    success_url = '/payment/'
+    template_name = 'payment/payment_form.html'
+    success_url = reverse_lazy('app:RegisterPayment')
     success_message = 'Yangi To\'lov qo\'shildi! '
 
 
 class PaymentUpdateView(SuccessMessageMixin, UpdateView):
     """Payment Taxrirlash"""
-    model = Payment
-    template_name = 'payment/payment_update.html'
+    model = Payment 
     fields = '__all__'
-    success_url = '/payment/'
     success_message = 'Yangilandi! '
+    template_name = 'payment/payment_update.html'
+    success_url = reverse_lazy('app:PaymentHome')
 
 
 class DeletePayment(SuccessMessageMixin, DeleteView):
     """O'chirish"""
     model = Payment
-    success_url = '/payment/'
     success_message = 'O\'chirildi'
+    success_url = reverse_lazy('app:PaymentHome')
 
 # Filter section
 
@@ -246,7 +250,7 @@ class HarajatlarView(SuccessMessageMixin, CreateView):
     model = Harajatlar
     template_name = "report_section/total_outlies.html"
     fields = ['name', 'amount']
-    success_url = '/harajatlar/add/'
+    success_url = reverse_lazy('app:RegisterHarajatlar')
     success_message = 'Yangi Harajat qo\'shildi! '
 
     def form_valid(self, form):
@@ -262,7 +266,7 @@ class UpdateHarajatlar(SuccessMessageMixin, UpdateView):
     model = Harajatlar
     template_name = "report_section/outlies_update.html"
     fields = '__all__'
-    success_url = 'harajatlar/add/'
+    success_url = reverse_lazy('app:RegisterHarajatlar')
     success_message = 'Yangilandi! '
 
     def form_valid(self, form):
@@ -278,13 +282,13 @@ class UpdateHarajatlar(SuccessMessageMixin, UpdateView):
 class DeleteHarajatlar(SuccessMessageMixin, DeleteView):
     """Harajatlar o'chirib yuborish"""
     model = Harajatlar
-    success_url = '/harajatlar/add/'
     success_message = 'O\'chirib yuborildi '
+    success_url = reverse_lazy('app:RegisterHarajatlar')
 
-    def test_function(self):
-        if self.request.user.admin == True:
-            return True
-        return False
+    # def test_function(self):
+    #     if self.request.user.admin == True:
+    #         return True
+    #     return False
 
 # qiduruv bolimi!
 class SearchStudents(ListView):

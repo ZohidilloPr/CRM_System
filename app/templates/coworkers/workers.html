@@ -23,7 +23,7 @@
     </form>
 </div>
 <div class="row" style="margin-right: 15px;">
-    <div class="col-md-9 m-auto">
+    <div class="col-md-10 m-auto">
         <table class="table table-hover table-borderless">
             <thead class="border-bottom border-primary">
                 <tr>
@@ -33,6 +33,8 @@
                     <th>O'quvchilar soni</th>
                     <th>Maoshi</th>
                     <th>Telefon Raqami</th>
+                    <th>Tajribasi</th>
+                    <th>Darajasi</th>
                     <th></th>
                   </tr>
             </thead>
@@ -45,6 +47,8 @@
                         <td> {{i.self_students}} kishi</td>
                         <td> {{i.salary}} so'm </td>
                         <td> (+998) {{i.phone_num}} </td>
+                        <td> {{ i.experience }} </td>
+                        <td> {{ i.level }} </td>
                         <td> <a href="{% url 'app:UpdateTeacher' pk=i.pk  %}" class="btn btn-primary px-3 btn-sm">Taxrirlash</a>
                             {% if user.admin == True %}
                                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal{{i.pk}}">
