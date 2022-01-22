@@ -5,5 +5,5 @@ app_name = 'accounts'
 
 urlpatterns = [
     path("", LogIn, name='LIU'),
-    path("/chiqish/", Logot, name='OUT'),
+    path("chiqish/", Logot, name='OUT'),
 ]
