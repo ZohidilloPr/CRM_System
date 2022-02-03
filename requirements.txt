@@ -1,7 +1,6 @@
-# asgiref==3.4.1
+asgiref==3.4.1
 beautifulsoup4==4.10.0
 boto==2.49.0
-Cactus==3.3.3
 colorama==0.4.4
 colorlog==6.6.0
 Django==4.0.2
