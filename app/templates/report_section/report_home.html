@@ -4,10 +4,35 @@
     Report_Home
 {% endblock title %}
 {% block content %}
+    <style>
+        #img{
+            top: 0.2%;
+            right: 10px; 
+            position: absolute;
+        }
+        #img img{
+            width: 50px;
+            border-radius: 50%;
+            border: 1px solid cadetblue;
+        }
+    </style>
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb py-3">
             <li class="breadcrumb-item" ><a href="{% url 'app:Home' %}"><i class="fas fa-home"></i>Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Umumiy Hisobot Bo'limi</li>
+            {% if user.admin == True and user.staff == True %}              
+                <li id="img">
+                    <a href="/for_only_meneger/">
+                        <img src="{{user.img.url}}"  alt="user_pic">
+                    </a>
+                </li>
+            {% elif user.staff == True %}
+                <li id="img">
+                    <a href="{{user.img.url}}">
+                        <img src="{{user.img.url}}"  alt="user_pic">
+                    </a>
+                </li>
+            {% endif %}
         </ol>
     </nav>
     <header class="text-center">

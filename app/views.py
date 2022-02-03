@@ -9,7 +9,8 @@ from django.views.generic import (
     CreateView, 
     UpdateView, 
     DeleteView, 
-    ListView
+    DetailView,
+    ListView,
 )
 from django.urls import reverse_lazy
 from datetime import datetime
@@ -344,3 +345,8 @@ def Arxiv_Student(request):
 def Arxiv_Harajat(request):
     harajat = Harajatlar.objects.all()
     return render(request, 'arxiv/harajat/outlay.html', {'harajat':harajat})
+
+"""Sertificate section"""
+class look_sertificate(DetailView):
+    model = Teacher
+    template_name = 'one/teacherone.html'

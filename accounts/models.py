@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -10,7 +11,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(("ISM"), max_length=50)
     last_name = models.CharField(("FAMILYA"), max_length=50)
     address = models.CharField(("MANZIL"), max_length=250)
-    img = models.ImageField(("Profile uchun Rasm"), upload_to='user_pic/', null=True, blank=True)
+    img = models.ImageField(("Profile uchun Rasm"), upload_to='user_pic/', default="default_img/default.png", null=True, blank=True)
     email = models.EmailField(('EMAIL'), unique=True)
     phone_number = models.CharField(('TELEFON RAQAM'), max_length=9)
     joined_date = models.DateTimeField(auto_now_add=True)

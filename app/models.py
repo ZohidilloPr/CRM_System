@@ -61,7 +61,7 @@ class Teacher(models.Model):
     address = models.CharField(_("Manzil"), max_length=100)
     phone_num = models.CharField(_("Telefon raqami"), max_length=9)
     level = models.CharField(_("Ilmiy darajasi"), max_length=100)
-    sertificate = models.FileField(_("Sertificate"), upload_to=f'sertificetes/{f_name}/', max_length=100, null=True, blank=True)
+    sertificate = models.ImageField(_("Sertificate"), upload_to=f'sertificetes/teachers/', null=True, blank=True)
     experience = models.CharField(_("Tajribasi"), max_length=50)
     registred_time = models.DateTimeField(_("royhatga olingan vaqt"), auto_now_add=True)
 
