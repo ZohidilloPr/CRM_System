@@ -47,10 +47,10 @@
                 <tbody>
                     {% for i in payment %}
                         {% if forloop.counter == 1 %}
-                            {% if i.get_total_payment or i.total_for_teachers_payment %}
-                            <td> {{ i.get_total_payment }} so'm </td>
+                            {% if i.this_month_payment or i.get_total_salary %}
+                            <td> {{ i.this_month_payment }} so'm </td>
                             <td> {{ i.get_total_salary }} so'm </td>
-                            <td> {{ i.get_total_outlay }} so'm </td>
+                            <td> {{ i.this_month_outlay }} so'm </td>
                             <td> {{ i.total_benifet }} so'm </td>
                             {% endif %}
                         {% endif %}

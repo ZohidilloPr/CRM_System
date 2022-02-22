@@ -67,10 +67,6 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f'{self.f_name} from {self.subject.name}'
-
-    @property
-    def get_subject_name(self):
-        return self.subject.name
     
     """Bitta fan uchun shu oyda qancha tolanganligini ko'rsatadi"""
     @property
@@ -86,8 +82,28 @@ class Teacher(models.Model):
 
     """Bitta o'qituvchi qancha oylik olishligini ko'rsatadi"""
     @property
-    def salary(self):
+    def salary(self):   
         total = self.this_month_payment / 2
+        return total
+
+    @property
+    def arxiv_salary(self):
+        """Har oyda necha pul oylik olayotgani ko'rsatadi"""
+        pay = self.payment_set.all()
+        def salary(num):
+            salary = []
+            for p in pay:
+                if p.payed_date.month == num:
+                    salary.append(p)
+            total = sum([i.payment for i in salary])
+            return total / 2
+        list_month = [salary(1),salary(2),salary(3),salary(4),salary(5),salary(6),salary(7),salary(8),salary(9),salary(10),salary(11),salary(12)]
+        return list_month
+
+    @property
+    def arxiv_salary_year(self):
+        """Yillik oylik"""    
+        total = sum([i for i in self.arxiv_salary])
         return total
 
     """Hamma o'qituvchi qancha olishligini ko'rsatadi"""
@@ -119,6 +135,21 @@ class Student(models.Model):
     def __str__(self):
         return f'{self.f_name} from {self.subject.name}'
  
+
+    @property
+    def arxiv_salary(self):
+        """Har oyda necha pul Tolayotgani ko'rsatadi"""
+        pay = self.payment_set.all()
+        def salary(num):
+            salary = []
+            for p in pay:
+                if p.payed_date.month == num:
+                    salary.append(p)
+            total = sum([i.payment for i in salary])
+            return total
+        list_month = [salary(1),salary(2),salary(3),salary(4),salary(5),salary(6),salary(7),salary(8),salary(9),salary(10),salary(11),salary(12)]
+        return list_month
+
     """Bitta student shu oyda necha pul tolov qilganligini ko'rsatadi"""
     @property
     def this_month_pay(self):
@@ -142,6 +173,18 @@ class Payment(models.Model):
     def __str__(self):
         return f'{self.student.f_name} {self.payment} so\'m'
 
+    """Shu oyda qilingan barcha tolov"""
+    @property
+    def this_month_payment(self):
+        oy = int(datetime.now().month)
+        payment = Payment.objects.all()
+        this_month = []
+        for i in payment:
+            if i.payed_date.month == oy:
+                this_month.append(i)
+        total = sum([i.payment for i in this_month])
+        return total 
+
     """To'langan umumiy summa olish"""
     @property
     def get_total_payment(self):
@@ -152,7 +195,7 @@ class Payment(models.Model):
     """O'qituvchilarga To'lanadigan umumiy summa"""
     @property
     def get_total_salary(self):
-        total = self.get_total_payment / 2
+        total = self.this_month_payment / 2
         return total
     
     """Centerning umumiy harajatlari"""
@@ -163,10 +206,22 @@ class Payment(models.Model):
         total = sum([i.amount for i in outlay])
         return total
 
+    """Shu oyda qilingan harajarlar"""
+    @property
+    def this_month_outlay(self):
+        oy = int(datetime.now().month)
+        outlay = Harajatlar.objects.all()
+        this_month = []
+        for i in outlay:
+            if i.used_date.month == oy:
+                this_month.append(i)
+        total = sum([i.amount for i in this_month])
+        return total 
+
     """Centerga qoladigan soft foyda"""
     @property
     def total_benifet(self):
-        total = self.get_total_salary - self.get_total_outlay
+        total = self.get_total_salary - self.this_month_outlay
         return total
 
 # HARAJATLAR
@@ -187,4 +242,30 @@ class Harajatlar(models.Model):
         total = sum([i.amount for i in outlay])
         return total
 
+    """Shu oyda qilingan harajarlar"""
+    @property
+    def this_month_outlay(self):
+        oy = int(datetime.now().month)
+        outlay = Harajatlar.objects.all()
+        this_month = []
+        for i in outlay:
+            if i.used_date.month == oy:
+                this_month.append(i)
+        total = sum([i.amount for i in this_month])
+        return total 
+    
+
+    """Har oyda necha pul Harajat qilinayotgani ko'rsatadi"""
+    @property
+    def arxiv_salary(self):
+        pay = Harajatlar.objects.all()
+        def salary(num):
+            salary = []
+            for p in pay:
+                if p.used_date.month == num:
+                    salary.append(p)
+            total = sum([i.amount for i in salary])
+            return total
+        list_month = [salary(1),salary(2),salary(3),salary(4),salary(5),salary(6),salary(7),salary(8),salary(9),salary(10),salary(11),salary(12)]
+        return list_month
  

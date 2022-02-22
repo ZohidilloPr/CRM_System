@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+{% block title %}
+    Payment
+{% endblock title %}
+{% block content %}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="text-info" href="{% url 'app:Home' %}"><i class="fas fa-home"></i>Home</a></li>
+        <li class="breadcrumb-item"><a class="text-info" href="{% url 'app:Arxiv'  %}"><i class="fas fa-archive"></i>Arxiv</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-chalkboard-teacher"></i>Salary</li>
+    </ol>
+</nav>
+<div class="container1">
+    <div class="wrapper text-center">
+        <h1 class="">SalaryList</h1>
+        <div class="border-bottom w-25 m-auto border-primary"></div>
+    </div>
+    <!-- <div class="col-md-5 m-auto">
+        <form action="{% url 'app:SearchPayment' %}" class="my-4" method="get">
+            <input class="form-control" type="search" name="P" aria-label="search" placeholder="">
+        </form>
+    </div> -->
+    <div class="row mt-5" style="margin-right: 15px;">
+        <div class="col-md-10 m-auto">
+            <table class="table table-hover table-borderless">
+                <thead class="border-bottom border-primary">
+                    <tr>
+                        <th scope="col" class="">#</th>
+                        <th scope="col" class="">F.I.Sh</th>
+                        <th scope="col" class="">Yanvar</th>
+                        <th scope="col" class="">Fev</th>
+                        <th scope="col" class="">Mart</th>
+                        <th scope="col" class="">Aprel</th>
+                        <th scope="col" class="">May</th>
+                        <th scope="col" class="">Iyun</th>
+                        <th scope="col" class="">Iyul</th>
+                        <th scope="col" class="">Aug</th>
+                        <th scope="col" class="">Sen</th>
+                        <th scope="col" class="">Oct</th>
+                        <th scope="col" class="">Noy</th>
+                        <th scope="col" class="">Dec</th>
+                        <th scope="col" class="text-info">Toral</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    {% for i in teacher %}
+                        <tr class="border-bottom">
+                            <th scope="row"> {{ forloop.counter }} </th>
+                            <td>
+                                {{ i.f_name }}
+                            </td>
+                            {% for p in i.arxiv_salary %}
+                                <td>{{p}} so'm</td>
+                            {% endfor %}
+                            <td>{{i.arxiv_salary_year}}</td>
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link" tabindex="-1" aria-disabled="true">Previous</a></li>
+                    {% endif %}
+                    <li class="page-item"><a href="?page=1" class="page-link">First</a></li>
+                    <li class="page-item"><a href="?page={{ page_obj.number }}" class="page-link">{{ page_obj.number }}</a></li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav> -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

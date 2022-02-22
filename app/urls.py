@@ -1,7 +1,12 @@
 from django.urls import path
 from .views import (
+    Arxiv_Harajat,
+    Arxiv_Home,
+    Arxiv_Student,
+    Arxiv_teacher,
     DeleteHarajatlar,
     Home,
+    SearchPayment,
     Subjects, 
     Students, 
     Teachers,
@@ -36,6 +41,10 @@ app_name = 'app'
 
 urlpatterns = [
     path("", Home, name="Home"),
+    path("arxiv/", Arxiv_Home, name="Arxiv"),
+    path("arxiv/salary/", Arxiv_teacher, name="AllTeacher"),
+    path("arxiv/payment/", Arxiv_Student, name="AllPayment"),
+    path("arxiv/harajat/", Arxiv_Harajat, name="AllHarajat"),
     path("subject/", Subjects, name="Subject"),
     path("tea/<id_sub>/", Teachers, name="Teacher"),
     path("stu/<id_tea>/", Students, name="Student"),
@@ -64,4 +73,5 @@ urlpatterns = [
     path("harajatlar/add/", HarajatlarView.as_view(), name="RegisterHarajatlar"),
     path("search/student/", SearchStudents.as_view(), name="SearchStudent"),
     path("search/teacher/", SearchTeacher.as_view(), name="SearchTeacher"),
+    path("search/payment/", SearchPayment.as_view(), name="SearchPayment"),
 ]

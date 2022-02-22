@@ -8,6 +8,9 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item active" aria-current="page">Home</li>
         <li class="breadcrumb-item"><a class="text-info" href="{% url 'app:ReportSection'  %}"><i class="fas fa-chart-line"></i> Umumiy Hisobot O'tish <i>→</i> </a></li>
+        {% if user.admin == True %}
+            <li class="breadcrumb-item"><a class="text-dark" href=" {% url 'app:Arxiv' %} "><i class="fas fa-archive"></i> arxiv <i>→</i> </a></li>
+        {% endif %}
         <li class="breadcrumb-item"><a href="{% url 'accounts:OUT' %}" class="mx-2 text-danger"><i class="fas fa-sign-out-alt mr-1"></i>Chiqish</a></li>
     </ol>
 </nav>

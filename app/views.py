@@ -258,7 +258,7 @@ class HarajatlarView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        kwargs['object_list'] = Harajatlar.objects.all()
+        kwargs['object_list'] = Harajatlar.objects.all().order_by('-used_date')
         return super().get_context_data(**kwargs)
 
 class UpdateHarajatlar(SuccessMessageMixin, UpdateView):
@@ -292,6 +292,7 @@ class DeleteHarajatlar(SuccessMessageMixin, DeleteView):
 
 # qiduruv bolimi!
 class SearchStudents(ListView):
+    """Talabalarni qidirish"""
     model = Student
     template_name = 'search_section/search_student.html'
     ordering = '-registered_date'
@@ -304,6 +305,7 @@ class SearchStudents(ListView):
         return object_list
 
 class SearchTeacher(ListView):
+    """Ishchilarni qidirish"""
     model = Teacher
     template_name = 'search_section/search_teacher.html'
     ordering = '-registred_time'
@@ -313,4 +315,32 @@ class SearchTeacher(ListView):
         query = self.request.GET.get('T')
         object_list = Teacher.objects.filter(Q(f_name__icontains=query) | Q(address__icontains=query) | Q(phone_num__icontains=query) | Q(subject__name__icontains=query))
         return object_list
-    
+
+class SearchPayment(ListView):
+    """Tolovlarni qidirish"""
+    model = Payment
+    template_name = 'search_section/search_payment.html'
+    ordering = '-payed_time'
+    paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get('P')
+        object_list = Payment.objects.filter(Q(student__f_name__icontains=query) | Q(subject__name__icontains=query) | Q(teacher__f_name__icontains=query) | Q(payment__icontains=query) | Q(payed_date__icontains=query))
+        return object_list
+
+
+"""Arxiv bolimi uchun"""
+def Arxiv_Home(request):
+    return render(request, 'arxiv/arxiv_home.html')
+
+def Arxiv_teacher(request):
+    teachers = Teacher.objects.all()
+    return render(request, 'arxiv/teachers/salary.html', {'teacher':teachers})
+
+def Arxiv_Student(request):
+    students = Student.objects.all()
+    return render(request, 'arxiv/students/payments.html', {'student':students})
+
+def Arxiv_Harajat(request):
+    harajat = Harajatlar.objects.all()
+    return render(request, 'arxiv/harajat/outlay.html', {'harajat':harajat})

@@ -13,9 +13,6 @@
         <li class="breadcrumb-item active" aria-current="page">Students</li>
     </ol>
 </nav>
-<div class="text-right fixed-top mt-5">
-    <a href="{% url 'app:RegisterStudent'  %}" class="mt-2 btn btn-primary btn-sm mr-2"><i class="fas fa-plus-circle"></i> add Student</a>
-</div>
     <div class="wrapper">
         <h2 class="text-center">O'quvchilar Royhati</h2>
     </div>
@@ -33,6 +30,7 @@
                             <th>O'qiydigan kunlari</th>
                             <th>O'quv Turi</th>
                             <th>Dars vaqti</th>
+                            <th>Payment</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -47,6 +45,7 @@
                                 <td> {{ i.study_days | upper }} </td>
                                 <td> {{ i.study_type | upper }} </td>
                                 <td> {{ i.lesson_time | upper }} </td>
+                                <td> {{ i.this_month_pay}} so'm</td>
                             </tr>
                         {% empty %}
                             <tr class="text-center">
