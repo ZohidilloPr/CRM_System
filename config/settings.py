@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure--&&_tvke4^)d#*obx5_p$@)49@t_jucqsdi1*b=+4%ze6kk#@2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -141,7 +141,7 @@ STATICFILES_DIR = [
 
 # rasmni yuklash uchun
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # custom userni ulash uchun
 AUTH_USER_MODEL = 'accounts.User'
